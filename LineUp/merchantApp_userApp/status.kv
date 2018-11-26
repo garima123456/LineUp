@@ -1,0 +1,171 @@
+#: import ListItemButton kivy.uix.listview.ListItemButton
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
+#: import main main
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
+
+StatusRoot:
+<StatusRoot>:
+    canvas.before:
+        Color:
+            rgba: 0.957, 0.890, 0.843, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+	SearchBranchName
+
+<SearchBranchName>:
+
+	orientation: "vertical"
+	search_input: search_box
+	search_results:search_results_list
+	search_results2:search_results_list2
+	Label:
+		height:"40dp"
+
+		text:"STEPPER "
+		background_color: 0.25,0,0, 0.25
+		color:0.659, 0.522, 0.431, 1
+		font_size:"30dp"
+	BoxLayout:
+		padding:[20, 0, 20, 0]
+		spacing:20
+		height: "40dp"
+		size_hint_y:None
+		padding:[20, 0, 20, 0]
+
+		TextInput:
+			id:search_box
+			size_hint_x: 50
+			corners: 20, 40, 60, 80
+			focus: True
+			multiline: False
+			on_text_validate:root.search_IFSC_code()
+
+		Button:
+			
+			text:'Search Bank'
+			background_color: 0.784, 0.443, 0.216, 1
+			height:"40dp"
+			size_hint_x: 50
+			size_hint_y: None
+			on_press:root.search_IFSC_code()
+	ListView:
+		id: search_results_list2
+		item_strings:[]
+		
+	ListView:
+		id: search_results_list
+		background_color:0.659, 0.522, 0.431, 1
+		adapter:
+			ListAdapter(data=[],cls=main.SelectionButton, args_converter=root.args_converter)
+
+	Button:
+		height:"40dp"
+		size_hint_y: None
+		background_color: 0.784, 0.443, 0.216, 1
+		text: "Cancel"
+		on_press: app.root.show_current_status(None)
+
+<SelectionButton>:
+	text:"{}({})".format(self.status[1], self.status[0])
+    selected_color: 0.659, 0.522, 0.431, 1
+    deselected_color: 0.659, 0.522, 0.431, 1
+    background_color: 0.659, 0.522, 0.431, 1
+	height:"40dp"
+	size_hint_y: None
+	
+	on_press: app.root.show_current_status(self.status)
+
+<CurrentStatus>:
+	status:['','']
+	current_status: 
+	available_position: 
+	working_hours:
+	window:
+	orientation: "vertical"
+    name_input: nameinput
+    mobile_number: mobilenumber
+	BoxLayout:
+    	height: "40dp"
+        size_hint_y:None
+		Label:
+			text:"{} ({})".format(root.status[1],root.status[0])
+			color:0.659, 0.522, 0.431, 1
+			font_size:"30dp"
+	GridLayout:
+		cols:2
+		padding:[20, 0, 20, 0]
+		spacing:20
+		Label:
+			text:"{}".format(root.window)
+			color:0.659, 0.522, 0.431, 1
+			font_size:"30dp"
+		Label:
+			text:"Working hours: {} ".format(root.working_hours)
+			color:0.659, 0.522, 0.431, 1
+
+	Label:
+		text:"Token number: {}".format(root.available_position)	
+		color:0.659, 0.522, 0.431, 1
+		font_size:"30dp"
+	Label:
+		text:"Fill the entries to get token"
+		color:0.659, 0.522, 0.431, 1	
+
+    GridLayout:
+    	cols:2
+    	padding:[20, 0, 40, 0]
+		spacing:20
+        size_hint_y:None
+        Label:
+            text: "Name:"
+            color:0.659, 0.522, 0.431, 1
+            size_hint_x:25
+        TextInput:
+            id: nameinput
+            size_hint_x:25
+            focus: True
+            multiline: False
+            on_text: root.data['name']=self.text
+
+        Label:
+            text: "Mobile number"
+	        color: 0.784, 0.443, 0.216, 1
+            size_hint_x:25   
+        TextInput:
+            id: mobilenumber
+            size_hint_x:25
+            focus: True
+            multiline: False
+            on_text: root.data['mobileNumber']=self.text
+
+	GridLayout:
+		cols:2
+		padding:[20, 0, 20, 0]
+		spacing:60
+		orietation: "horizontal"
+		size_hint_y: None
+		height:"40dp"
+		Button:
+			text:"Back"
+			color:0.659, 0.522, 0.431, 1
+			background_color: 0.784, 0.443, 0.216, 1
+			on_press: app.root.show_search_branch()
+	    Button:
+	        height: "40dp"
+	        size_hint_y: None
+	        text: "Confirm"
+			color:0.659, 0.522, 0.431, 1
+	        background_color: 0.784, 0.443, 0.216, 1
+	        on_press: root.dispatch('on_save', root.data)
+	Button:
+        height: "40dp"
+        size_hint_y: None
+        text: "Go"
+		color:0.659, 0.522, 0.431, 1
+        background_color: 0.784, 0.443, 0.216, 1
+		on_press: app.root.lock_entries()
+
+
+
+

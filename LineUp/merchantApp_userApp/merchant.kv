@@ -1,0 +1,392 @@
+#: import ListItemButton kivy.uix.listview.ListItemButton
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
+#: import main main
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
+
+StatusRoot:
+<StatusRoot>:
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+	SearchBranchName
+
+<SearchBranchName>:
+
+	orientation: "vertical"
+
+	search_input: search_box
+	search_results:search_results_list
+	search_results2:search_results_list2
+	search_available_id:search_available_id_list
+
+
+	Label:
+		height:"40dp"
+		text:"LineUP"
+		color:0, 0,0, 0.659
+		font_size:"30dp"
+	BoxLayout:
+		padding:[20, 0, 20, 0]
+		spacing:20
+		height: "40dp"
+		size_hint_y:None
+		padding:[20, 0, 20, 0]
+		Label:
+			height:"40dp"
+			size_hint_x: 25
+			text:"login or register"
+			color:0, 0,0, 0.659
+
+		TextInput:
+			id:search_box
+			size_hint_x: 25
+			corners: 20, 40, 60, 80
+			focus: True
+			multiline: False
+			on_text_validate:root.search_IFSC_code()
+	BoxLayout:
+		padding:[20, 0, 20, 0]
+		spacing:20
+		height: "40dp"
+		size_hint_y:None
+		padding:[20, 0, 20, 0]
+		Button:
+			
+			text:'Login'
+			background_color: 0, 0.431,1, 0.659
+
+			height:"40dp"
+			size_hint_x: 25
+			size_hint_y: None
+			on_press:root.search_IFSC_code()
+
+		Button:
+			
+			text:'Register'
+			background_color: 0, 0.431,1, 0.659
+			height:"40dp"
+			size_hint_x: 25
+			size_hint_y: None
+			on_press:app.root.edit_window_details()
+
+
+	ListView:
+		id: search_results_list2
+		item_strings:[]
+		canvas.before:
+			Color:
+				rgb:0,.5,1
+			Rectangle:
+				pos:self.pos
+				size:self.size
+	ListView:
+		id: search_available_id_list
+		item_strings:[]
+		canvas.before:
+			Color:
+				rgb:0,.5,1
+			Rectangle:
+				pos:self.pos
+				size:self.size
+	ListView:
+		id: search_results_list
+		background_color:0, 0.431,1, 0.659
+		adapter:
+			ListAdapter(data=[],cls=main.SelectionButton, args_converter=root.args_converter)			
+
+	Label:
+		height:"40dp"
+		size_hint_x: 25
+		text:""
+		color:0, 0,0, 0.659
+
+<SelectionButton>:
+	text:"{}({})".format(self.status[1], self.status[0])
+    deselected_color: 0, 0.431,1, 0.659
+	height:"40dp"
+	size_hint_y: None
+	on_press: app.root.show_current_status(self.status)
+
+<CounterWindow>:
+	orientation: "vertical"
+    search_input: search_box
+	verify_password:verify_password_validity
+	check_password:check_password_id
+	re_verify_password:re_verify_password_validity
+	mobile_number:mobile_number_detail
+	search_available_id:search_available_id_list
+	email:email_id
+	ListView:
+
+		height: "40dp"
+		size_hint_y:None
+		item_strings:['LineUP']
+		canvas.before:
+			Color:
+				rgb:0,.5,1
+			Rectangle:
+				pos:self.pos
+				size:self.size
+    BoxLayout:
+
+		Label:
+			height:"20dp"
+			size_hint_x: 25
+			text:"Fill the form below"
+			color:0, 0,0, 0.659
+    BoxLayout:
+    	
+		height: "40dp" 
+		size_hint_y: None
+    	padding:[20, 0, 40, 0]
+		spacing:20
+
+		Label:
+			height:"20dp"
+			size_hint_x: 25
+			text:"Select an ID"
+			color:0, 0,0, 0.659
+        TextInput:
+            id:search_box
+            size_hint_x:50
+            focus: True
+            text_size: self.size
+
+            multiline: False
+            on_text: root.data['id']=self.text
+		Button:
+			
+			text:'Verify'
+			background_color: 0, 0.431,1, 0.659
+			height:"40dp"
+			size_hint_x: 25
+			size_hint_y: None
+			on_press:root.check_available_id()
+	ListView:
+		id: search_available_id_list
+		item_strings:[]
+		height: "40dp"
+		size_hint_y:None
+
+		canvas.before:
+			Color:
+				rgb:0,.5,1
+			Rectangle:
+				pos:self.pos
+				size:self.size
+    GridLayout:
+    	cols:2
+		height: "20dp" 
+		#size:root.size
+		spacing:10
+	    padding:[20, 0, 40, 0]
+		Label:
+			height:"20dp"
+			size_hint_x: 25
+			text:"Email id"
+			color:0, 0,0, 0.659
+        TextInput:
+            id:email_id
+            size_hint_x:25
+            focus: True
+            multiline: False
+            on_text: root.data['email_id']=self.text
+		Label:
+			height:"20dp"
+			size_hint_x: 25
+			text:"Mobile number"
+			color:0, 0,0, 0.659
+        TextInput:
+            id:mobile_number_detail
+            size_hint_x:25
+            focus: True
+            multiline: False
+            on_text: root.data['mobile_number']=self.text
+		Label:
+			height:"20dp"
+			size_hint_x: 25
+			text:"Select Password"
+			color:0, 0,0, 0.659
+
+		TextInput:
+			id:verify_password_validity
+
+			size_hint_x: 25
+			focus: True
+			multiline: False
+			on_text:root.data['Password']=self.text
+
+			
+		Label:
+			height:"20dp"
+			size_hint_x: 25
+			text:"Re-enter Password"
+			color:0, 0,0, 0.659
+        TextInput:
+            id:re_verify_password_validity
+            size_hint_x:25
+            focus: True
+            multiline: False
+            on_text: root.data['Password 2']=self.text
+
+	ListView:
+		id: check_password_id
+		height: "40dp"
+		size_hint_y:None
+		item_strings:[]
+		canvas.before:
+			Color:
+				rgb:0,.5,1
+			Rectangle:
+				pos:self.pos
+				size:self.size
+
+	BoxLayout:
+		padding:[20, 0, 20, 0]
+		spacing:20
+		height: "40dp"
+		size_hint_y:None
+		Button:
+			height: "40dp"
+		    size_hint_y: None
+			text:"Back"
+			color:1,1,1,1
+			background_color: 0, 0.431,1, 0.659
+			on_press: app.root.show_search_branch()
+	    Button:
+	        height: "40dp"
+	        size_hint_y: None
+	        text: "Confirm"
+			color:1,1,1,1
+			background_color: 0, 0.431,1, 0.659
+	        on_press: root.dispatch('on_save', root.data)
+
+<CurrentStatus>:
+	status:['','']
+	token_search_result:token_search_result_list
+	display_token:display_token_list
+	current_status: 
+	available_position: 
+	working_hours:
+	window:
+	orientation: "vertical"
+
+	GridLayout:
+		cols:1
+		padding:[20, 0, 20, 0]
+		spacing:20
+    	
+        size_hint_y:None
+		Label:
+			text:"{}".format(root.status[0])
+			color:0, 0,0, 0.659
+			font_size:"30dp"
+		Label:
+			text:"{}".format(root.status[1])
+			color:0, 0,0, 0.659
+			font_size:"30dp"
+
+	GridLayout:
+		cols:2
+		padding:[20, 0, 20, 0]
+		spacing:20
+
+
+
+		Button:
+			height: "40dp"
+		    size_hint_y: None
+			text:"Open window"
+			color:1,1,1,1
+			background_color: 0, 0.431,1, 0.659
+			on_press: root.start_queue()
+		Button:
+			height: "40dp"
+		    size_hint_y: None
+			text:"close window"
+			color:1,1,1,1
+			background_color: 0, 0.431,1, 0.659
+			on_press: root.close_window()
+
+		Label:
+			text:"Line UP"
+			color:0, 0,0, 0.659
+			font_size:"20dp"
+
+		ListView:
+
+			id: token_search_result_list
+			item_strings: []
+			canvas.before:
+				Color:
+					rgb:0,.5,1
+				Rectangle:
+					pos:self.pos
+					size:self.size
+	BoxLayout:
+		padding:[20, 0, 20, 0]
+		spacing:20
+		height: "40dp"
+		size_hint_y:None
+		Button:
+			height: "40dp"
+		    size_hint_y: None
+			text:"Next"
+			color:1,1,1,1
+			background_color: 0, 0.431,1, 0.659
+			on_press: root.next_in_queue()
+	GridLayout:
+		cols:2
+		Label:
+			height:"20dp"
+			size_hint_x: 25
+			text:""
+			color:0, 0,0, 0.659
+		Label:
+			height:"20dp"
+			size_hint_x: 25
+			text:""
+			color:0, 0,0, 0.659
+	BoxLayout:
+		padding:[20, 0, 20, 0]
+		spacing:20
+		height: "40dp"
+		size_hint_y:None
+		Button:
+			height: "40dp"
+		    size_hint_y: None
+			text:"Remaining Tokens"
+			color:1,1,1,1
+			background_color: 0, 0.431,1, 0.659
+			on_press: root.available_Tokens()
+		ListView:
+
+			id: display_token_list
+			item_strings: []
+			canvas.before:
+				Color:
+					rgb:0,.5,1
+				Rectangle:
+					pos:self.pos
+					size:self.size
+	Button:
+		height: "40dp"
+	    size_hint_y: None
+		text:"Buy new token"
+		color:1,1,1,1
+		background_color: 0, 0.431,1, 0.659
+		on_press: root.close_window()
+	Button:
+		height: "40dp"
+	    size_hint_y: None
+		text:"Back"
+		color:1,1,1,1
+		background_color: 0, 0.431,1, 0.659
+		on_press: app.root.show_search_branch()
+<BuyNewTokens>:
+
+
+
